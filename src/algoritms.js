@@ -104,92 +104,40 @@ function getAll(req, res, next) {
     q.SelectCollection(req, res, next, "");
 }
 
+/**
+ *
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 function getComplet(req, res, next) {
-    // console.log(connection)
-    let nameLastname = req.body.nameLastname,
-        payConcept = req.body.payConcept,
-        dni = req.body.dni,
-        code = req.body.code,
-        initDate = req.body.initDate,
-        endDate = req.body.endDate,
-        receiptPayment = req.body.receiptPayment
+    let nameLastname = req.query.nameLastname,
+        payConcept = req.query.payConcept,
+        dni = req.query.dni,
+        code = req.query.code,
+        initDate = req.query.initDate,
+        endDate = req.query.endDate,
+        receiptPayment = req.query.receiptPayment
 
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
     }
-    // connection.queryAsync("Select * from alumnos")
-    //     .then(
-    //         function(result) {
-    //             console.log("rows", result.rows);
-    //         }
-    //     )
-    //     .finally(
-    //         function() {
-    //             console.log("error");
-    //         }
-    //     )
-
+    
     connection.query("Select * from alumno", (err, resp) => {
-            if (err) {
-                return res.status(404).send({
-                    message: err.stack
-                })
-            } else {
-                return res.status(200).send({
-                    message: resp
-                })
-            }
-        })
-        //     .then(
-        //         function(result) {
-        //             console.log("rows", result.rows);
-        //         }
-        //     )
-        //     .finally(
-        //         function() {
-        //             console.log("error");
-        //         }
-        //     )
-        // console.log(result)
-        // return res.status(200).send({
-        //     alumno: result
-        // })
-
-    /*
-    let jsonR = req.body;
-    let whereperiod;
-    let ListNames = jsonR.nombre;
-    let ListConcepts = jsonR.id_concepto;
-    let Listvoucher = jsonR.voucher;
-    let IPeriod = "'"+jsonR.periodoI+"'";
-    let FPeriod = "'"+jsonR.periodoF+"'";
-    let ListDNI = jsonR.dni;
-    let hoy = new Date();
-    if (ListNames === "") ListNames = null;
-    if (ListConcepts === "") ListConcepts = null;
-    if (Listvoucher === "") Listvoucher = null;
-    if (ListDNI === "") ListDNI = null;
-    if (jsonR.periodoI === null ||jsonR.periodoI === "") IPeriod = "'0001-01-01'";
-    if (jsonR.periodoF === null ||jsonR.periodoF === "") FPeriod = "'"+hoy.getFullYear()+'-'+hoy.getMonth()+'-'+hoy.getDate()+"'";
-    if ((jsonR.periodoI === null ||jsonR.periodoI === "") && (jsonR.periodoF === null ||jsonR.periodoF === ""))
-        whereperiod='true';
-    else{
-        if (jsonR.periodoF === jsonR.periodoI) {
-            FPeriod = sumarDias(new Date(IPeriod), 1);
-            whereperiod = "("+indice_fecha+" < '"+FPeriod.toDateString()+"' AND " + indice_fecha + " >= "+ IPeriod +")";
-        }else
-            whereperiod = "("+indice_fecha+" < "+FPeriod+" AND " + indice_fecha + " >= "+ IPeriod +")";
-    }
-
-    let where = where_construct(ListNames, indice_name)+" AND "
-        +whereperiod+" AND "
-        +where_construct(Listvoucher, indice_voucher)+" AND "
-        +where_construct(ListConcepts, indice_concepto)+" AND "
-        +"("+where_construct(ListDNI,indice_dni)+" OR "+where_construct(ListDNI, indice_codigo)+") " +
-        "AND clase_pagos.id_clase_pagos IN (select id_clase_pagos from configuracion where estado = 'S')";
-
-    q.SelectCollection(req, res, next, where);*/
+        if (err) {
+            return res.status(404).send({
+                message: err.stack
+            })
+        } else {
+            return res.status(200).send({
+                message: resp.rows
+            })
+        }
+    })
 }
 
 function validate(req, res, next) {

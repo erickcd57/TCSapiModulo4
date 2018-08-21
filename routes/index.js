@@ -1,4 +1,5 @@
-const check = require('express-validator/check').check
+const check = require('express-validator/check').check,
+    trim = require('express-validator/check').trim
 
 let express = require('express');
 let bodyParser = require('body-parser');
@@ -23,13 +24,13 @@ router.get('/recaudaciones', algrmts.getAll);
 
 /*  POST Recaudacion detallada*/
 router.get('/recaudaciones/detallada', [
-    check('nameLastname'),
-    check('payConcept').isLength({ min: 8, max: 8 }),
-    check('dni').isLength({ min: 8, max: 8 }),
-    check('code').isLength({ min: 8, max: 8 }),
-    check('initDate').isAfter(),
-    check('endDate'),
-    check('receiptPayment').isLength({ min: 1 })
+    check('nameLastname').trim().isLength({max:70}),
+    check('payConcept').trim().isLength({ min: 8, max: 8 }),
+    check('dni').trim().isLength({ min: 8, max: 8 }),
+    check('code').trim().isLength({ min: 8, max: 8 }),
+    check('initDate').trim(),
+    check('endDate').trim(),
+    check('receiptPayment').trim().isLength({ max: 10 })
 ], algrmts.getComplet);
 
 /*  POST Editar Recaudacion*/
