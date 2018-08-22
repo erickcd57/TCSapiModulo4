@@ -129,7 +129,7 @@ function getComplet(req, res, next) {
     
     connection.query("Select * from alumno", (err, resp) => {
         if (err) {
-            return res.status(404).send({
+            return res.status(500).send({
                 message: err.stack
             })
         } else {

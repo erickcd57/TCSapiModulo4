@@ -1,10 +1,10 @@
 const check = require('express-validator/check').check,
-    trim = require('express-validator/check').trim
-
-let express = require('express');
-let bodyParser = require('body-parser');
-let router = express.Router();
-let algrmts = require('../src/algoritms');
+    trim = require('express-validator/check').trim,
+    path = require('path'),
+    express = require('express'),
+    bodyParser = require('body-parser'),
+    router = express.Router(),
+    algrmts = require('../src/algoritms')
 
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -17,7 +17,8 @@ router.use(bodyParser.json());
 
 /*  GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'WebAPI Recaudaciones' });
+    console.log(__dirname)
+    res.sendFile(path.resolve('public/documentation.html'));
 });
 /*  GET Recaudaciones Totales */
 router.get('/recaudaciones', algrmts.getAll);
