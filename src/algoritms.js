@@ -127,7 +127,15 @@ function getComplet(req, res, next) {
         return res.status(422).json({ errors: errors.array() });
     }
     
-    connection.query("Select * from sp_get_collections1($1,$2,$3,$4,$5,$6,$7)")
+    connection.query("Select * from sp_get_collections1($1,$2,$3,$4,$5,$6,$7)",[
+        nameLastname,
+        payConcept,
+        dni,
+        code,
+        initDate,
+        endDate,
+        receiptPayment
+    ])
         .then(data=>{
             return res.status(200).send({
                 message: resp.rows
@@ -139,17 +147,6 @@ function getComplet(req, res, next) {
             })
         })
 
-    // , (err, resp) => {
-    //     if (err) {
-    //         return res.status(500).send({
-    //             message: err.stack
-    //         })
-    //     } else {
-    //         return res.status(200).send({
-    //             message: resp.rows
-    //         })
-    //     }
-    // })
 }
 
 function validate(req, res, next) {
